@@ -1,0 +1,102 @@
+>>> from app import Users
+## get all rows
+>>> Users.query.all()
+[User('gaurav', 'g', '153', 'dsfsdf'), User('asfdf', 'asd', 'sdf', 'sdf'), 
+User('Gaurav Pingale', 'Gaurav', '123', 'gauravpingale4@gmail.com'), 
+User('asda', 'Ga', '123', 'gauravpingale4@gasdsdmail.com'), 
+User('asdasd', 'sdad', 'asd', 'asd'), User('dfsdfssdf', 'sdf', 'sdfsdf', 'sdfsdf')]
+
+## get first row
+>>> Users.query.first() 
+User('gaurav', 'g', '153', 'dsfsdf')
+
+## Adding new User
+>>> new_user= Users(name = "Akshay" , username = "Ak", password = "123456", email = "ak@gmail.com")   
+>>> from app import db  
+>>> db.session.add(new_user)
+>>> db.session.commit()
+
+## Delete
+>>> Users.query.get(2)      
+User('asfdf', 'asd', 'sdf', 'sdf')
+>>> db.session.delete( Users.query.get(2)) 
+>>> db.session.commit() 
+>>> user = Users.query.get(2) 
+>>> user is None 
+True
+
+##filter by 
+>>> Users.query.filter_by(username = "Ak")  
+<flask_sqlalchemy.BaseQuery object at 0x0474B028>
+>>> Users.query.filter_by(username = "Ak").all()
+[User('Akshay', 'Ak', '123456', 'ak@gmail.com')]
+
+>>> Users.query.filter_by(username = "Ak").first()
+User('Akshay', 'Ak', '123456', 'ak@gmail.com')
+
+>>> user = Users.query.filter_by(username = "Ak").first() 
+>>> user
+User('Akshay', 'Ak', '123456', 'ak@gmail.com')
+>>> user.id
+8
+>>> user.name
+'Akshay'
+
+##complex expression filter
+>>> user = Users.query.filter(Users.email.endswith(".com")).all()
+>>> user
+[User('Gaurav Pingale', 'Gaurav', '123', 'gauravpingale4@gmail.com'), 
+User('asda', 'Ga', '123', 'gauravpingale4@gasdsdmail.com'), 
+User('Akshay', 'Ak', '123456', 'ak@gmail.com')]
+
+
+## get user by pk i.e. id
+>>> user
+User('gaurav', 'g', '153', 'dsfsdf')
+
+## Order_by
+>>> Users.query.order_by(Users.username).all() 
+[User('Akshay', 'Ak', '123456', 'ak@gmail.com'), 
+User('asda', 'Ga', '123', 'gauravpingale4@gasdsdmail.com'), 
+User('Gaurav Pingale', 'Gaurav', '123', 'gauravpingale4@gmail.com'), 
+User('asdasd', 'sdad', 'asd', 'asd'), User('dfsdfssdf', 'sdf', 'sdfsdf', 'sdfsdf')]
+
+## Order_by desc()  
+>>> Users.query.order_by(Users.username.desc()).all() 
+[User('dfsdfssdf', 'sdf', 'sdfsdf', 'sdfsdf'), User('asdasd', 'sdad', 'asd', 'asd'), 
+User('Gaurav Pingale', 'Gaurav', '123', 'gauravpingale4@gmail.com'), 
+User('asda', 'Ga', '123', 'gauravpingale4@gasdsdmail.com'), 
+User('Akshay', 'Ak', '123456', 'ak@gmail.com')]
+## limit
+>>> Users.query.limit(2).all()
+[User('Gaurav Pingale', 'Gaurav', '123', 'gauravpingale4@gmail.com'), User('asda', 'Ga', '123', 'gauravpingale4@gasdsdmail.com')]
+
+##if record is not exist
+>>> user = Users.query.get(15666) 
+>>> user is None
+True
+
+##404
+
+>>> Users.query.filter_by(username = "a4654").first_or_404(description='There is no data with {}'.format(Users.username)) 
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "F:\Cuelogic\Training\5 Flask\Environments\flask_sqlalchemy_demo\lib\site-packages\flask_sqlalchemy\__init__.py", line 470, in first_or_404     
+    abort(404, description=description)
+  File "F:\Cuelogic\Training\5 Flask\Environments\flask_sqlalchemy_demo\lib\site-packages\werkzeug\exceptions.py", line 940, in abort
+    _aborter(status, *args, **kwargs)
+  File "F:\Cuelogic\Training\5 Flask\Environments\flask_sqlalchemy_demo\lib\site-packages\werkzeug\exceptions.py", line 923, in __call__
+    raise self.mapping[code](*args, **kwargs)
+werkzeug.exceptions.NotFound: 404 Not Found: There is no data with Users.username
+
+##create
+>>>db.create_all()
+
+## Drop
+>>>db.drop_all()
+
+
+
+## https://www.youtube.com/watch?v=cYWiDiIUxQc
+
+
