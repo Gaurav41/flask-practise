@@ -1,0 +1,4 @@
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [28/Jun/2021 17:42:15] "GET / HTTP/1.1" 200 -
+ERROR:app:asd failed to log in
+INFO:werkzeug:127.0.0.1 - - [28/Jun/2021 17:42:20] "[31m[1mPOST /login HTTP/1.1[0m" 401 -
